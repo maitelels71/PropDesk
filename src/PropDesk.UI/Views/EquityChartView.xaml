@@ -1,0 +1,96 @@
+<UserControl x:Class="PropDesk.UI.Views.EquityChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
+
+    <Grid Background="#1E1E2E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tab Buttons -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="12,12,12,0">
+            <Button Content="Equity Curve" Tag="equity"
+                    Command="{Binding SwitchChartCommand}" CommandParameter="equity"
+                    Background="{Binding EquityTabColor}" Foreground="#1E1E2E"
+                    FontFamily="Segoe UI" FontSize="11" FontWeight="Bold"
+                    Padding="14,6" Margin="0,0,6,0" BorderThickness="0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Daily P&amp;L" Tag="daily"
+                    Command="{Binding SwitchChartCommand}" CommandParameter="daily"
+                    Background="{Binding DailyTabColor}" Foreground="#1E1E2E"
+                    FontFamily="Segoe UI" FontSize="11" FontWeight="Bold"
+                    Padding="14,6" Margin="0,0,6,0" BorderThickness="0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Consistency" Tag="consistency"
+                    Command="{Binding SwitchChartCommand}" CommandParameter="consistency"
+                    Background="{Binding ConsistencyTabColor}" Foreground="#1E1E2E"
+                    FontFamily="Segoe UI" FontSize="11" FontWeight="Bold"
+                    Padding="14,6" BorderThickness="0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+
+        <!-- Chart -->
+        <lvc:CartesianChart Grid.Row="1" Margin="12"
+                            Series="{Binding ChartSeries}"
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"
+                            TooltipPosition="Top"
+                            Background="#1E1E2E"/>
+
+        <!-- Mini Stats Row -->
+        <UniformGrid Grid.Row="2" Columns="4" Margin="12,0,12,12">
+            <Border Background="#2A2A3E" CornerRadius="6" Padding="12,8" Margin="0,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Best Day" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding BestDay, StringFormat=${0:N2}}" FontFamily="Segoe UI"
+                               FontSize="14" FontWeight="Bold" Foreground="#50FA7B"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#2A2A3E" CornerRadius="6" Padding="12,8" Margin="0,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Worst Day" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding WorstDay, StringFormat=${0:N2}}" FontFamily="Segoe UI"
+                               FontSize="14" FontWeight="Bold" Foreground="#FF5555"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#2A2A3E" CornerRadius="6" Padding="12,8" Margin="0,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Avg Day" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding AvgDay, StringFormat=${0:N2}}" FontFamily="Segoe UI"
+                               FontSize="14" FontWeight="Bold" Foreground="#4C9BE8"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#2A2A3E" CornerRadius="6" Padding="12,8">
+                <StackPanel>
+                    <TextBlock Text="Net P&amp;L" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding ChartNetPnL, StringFormat=${0:N2}}" FontFamily="Segoe UI"
+                               FontSize="14" FontWeight="Bold" Foreground="#F1FA8C"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+    </Grid>
+</UserControl>
