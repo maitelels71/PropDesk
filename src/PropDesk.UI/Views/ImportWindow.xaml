@@ -1,0 +1,156 @@
+<Window x:Class="PropDesk.UI.Views.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PropDesk – Import CSV"
+        Height="560" Width="720"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E2E">
+
+    <Window.Resources>
+        <Style x:Key="ActionBtn" TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="📂  Import CSV from MyFundedFutures"
+                       FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Foreground="#4C9BE8"/>
+            <TextBlock Text="Export your trades from MyFundedFutures and import them here. All calculations update automatically."
+                       FontFamily="Segoe UI" FontSize="11" Foreground="#6272A4" Margin="0,6,0,0"
+                       TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <!-- File Picker -->
+        <Border Grid.Row="1" Background="#2A2A3E" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="CSV File" FontFamily="Segoe UI" FontSize="11"
+                               Foreground="#6272A4" Margin="0,0,0,6"/>
+                    <TextBlock Text="{Binding SelectedFilePath}"
+                               FontFamily="Segoe UI" FontSize="12" Foreground="#F1FA8C"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="📁  Browse" VerticalAlignment="Bottom"
+                        Style="{StaticResource ActionBtn}"
+                        Background="#4C9BE8" Foreground="#1E1E2E"
+                        Command="{Binding BrowseCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Preview Grid -->
+        <Border Grid.Row="2" Background="#2A2A3E" CornerRadius="8" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Preview (first 20 rows)"
+                           FontFamily="Segoe UI" FontSize="11" FontWeight="Bold"
+                           Foreground="#6272A4" Margin="8,4,0,8"/>
+                <DataGrid Grid.Row="1"
+                          ItemsSource="{Binding PreviewTrades}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Background="#1E1E2E"
+                          Foreground="#F8F8F2"
+                          BorderThickness="0"
+                          GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="#44475A"
+                          RowBackground="#1E1E2E"
+                          AlternatingRowBackground="#252535"
+                          HeadersVisibility="Column"
+                          FontFamily="Segoe UI"
+                          FontSize="11">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#12121E"/>
+                            <Setter Property="Foreground" Value="#4C9BE8"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="8,6"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date"       Binding="{Binding Date, StringFormat=MM/dd/yyyy}"  Width="90"/>
+                        <DataGridTextColumn Header="Instrument" Binding="{Binding Instrument}"                     Width="100"/>
+                        <DataGridTextColumn Header="Direction"  Binding="{Binding Direction}"                      Width="70"/>
+                        <DataGridTextColumn Header="Contracts"  Binding="{Binding Contracts}"                      Width="70"/>
+                        <DataGridTextColumn Header="Gross P&amp;L" Binding="{Binding GrossProfit, StringFormat=${0:N2}}" Width="90"/>
+                        <DataGridTextColumn Header="Commission" Binding="{Binding Commission, StringFormat=${0:N2}}"     Width="90"/>
+                        <DataGridTextColumn Header="Net P&amp;L"   Binding="{Binding NetProfit, StringFormat=${0:N2}}"  Width="90"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- Summary -->
+        <Border Grid.Row="3" Background="#2A2A3E" CornerRadius="8" Padding="16" Margin="0,12,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Total Trades" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding TotalTrades}" FontFamily="Segoe UI"
+                               FontSize="20" FontWeight="Bold" Foreground="#F8F8F2"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Trading Days" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding TradingDaysCount}" FontFamily="Segoe UI"
+                               FontSize="20" FontWeight="Bold" Foreground="#4C9BE8"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Net P&amp;L" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding ImportNetPnL, StringFormat=${0:N2}}" FontFamily="Segoe UI"
+                               FontSize="20" FontWeight="Bold" Foreground="#50FA7B"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <TextBlock Text="Warnings" FontFamily="Segoe UI" FontSize="10" Foreground="#6272A4"/>
+                    <TextBlock Text="{Binding WarningCount}" FontFamily="Segoe UI"
+                               FontSize="20" FontWeight="Bold" Foreground="#F1FA8C"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Cancel" Style="{StaticResource ActionBtn}"
+                    Background="#44475A" Foreground="#F8F8F2"
+                    Click="Cancel_Click"/>
+            <Button Content="✅  Import Trades" Style="{StaticResource ActionBtn}"
+                    Background="#50FA7B" Foreground="#1E1E2E"
+                    Command="{Binding ImportCommand}"
+                    IsEnabled="{Binding CanImport}"/>
+        </StackPanel>
+    </Grid>
+</Window>
