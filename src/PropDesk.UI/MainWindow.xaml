@@ -1,0 +1,299 @@
+<Window x:Class="PropDesk.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        Title="PropDesk – Funded Futures Dashboard"
+        Height="800" Width="1280"
+        MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#1E1E2E">
+
+    <Window.Resources>
+        <!-- Card Style -->
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="#2A2A3E"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="6"/>
+        </Style>
+        <!-- Label Style -->
+        <Style x:Key="CardLabel" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="#6272A4"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <!-- Value Style -->
+        <Style x:Key="CardValue" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#F8F8F2"/>
+        </Style>
+        <!-- Action Button -->
+        <Style x:Key="ActionBtn" TargetType="Button">
+            <Setter Property="Background" Value="#4C9BE8"/>
+            <Setter Property="Foreground" Value="#1E1E2E"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>   <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Content -->
+            <RowDefinition Height="48"/>   <!-- Footer / Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- ═══ HEADER ═══ -->
+        <Border Grid.Row="0" Background="#12121E">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="⚡" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Text="PropDesk" FontFamily="Segoe UI" FontSize="20"
+                                   FontWeight="Bold" Foreground="#4C9BE8"/>
+                        <TextBlock Text="MyFundedFutures Dashboard" FontFamily="Segoe UI"
+                                   FontSize="11" Foreground="#6272A4"/>
+                    </StackPanel>
+                </StackPanel>
+                <!-- Traffic Light -->
+                <Border Grid.Column="1" Background="#2A2A3E" CornerRadius="6" Padding="16,8">
+                    <TextBlock Text="{Binding TrafficLightText}" FontFamily="Segoe UI"
+                               FontSize="14" FontWeight="Bold"
+                               Foreground="{Binding TrafficLightColor}"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>  <!-- Row 1: Key metrics -->
+                    <RowDefinition Height="Auto"/>  <!-- Row 2: Consistency + Payout -->
+                    <RowDefinition Height="Auto"/>  <!-- Row 3: Stats + Drawdown -->
+                </Grid.RowDefinitions>
+
+                <!-- ROW 1: KEY METRICS (5 cards) -->
+                <UniformGrid Grid.Row="0" Columns="5" Margin="0,0,0,4">
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Current Balance"/>
+                            <TextBlock Style="{StaticResource CardValue}"
+                                       Text="{Binding CurrentBalance, StringFormat=${0:N2}}"
+                                       Foreground="#50FA7B"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Net Profit"/>
+                            <TextBlock Style="{StaticResource CardValue}"
+                                       Text="{Binding NetProfit, StringFormat=${0:N2}}"
+                                       Foreground="{Binding NetProfitColor}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Largest Win Day"/>
+                            <TextBlock Style="{StaticResource CardValue}"
+                                       Text="{Binding LargestWinDay, StringFormat=${0:N2}}"
+                                       Foreground="#F1FA8C"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Trading Days"/>
+                            <TextBlock Style="{StaticResource CardValue}"
+                                       Text="{Binding TradingDays}"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Buffer"/>
+                            <TextBlock Style="{StaticResource CardValue}"
+                                       Text="{Binding Buffer, StringFormat=${0:N2}}"
+                                       Foreground="{Binding BufferColor}"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- ROW 2: CONSISTENCY + PAYOUT -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Consistency Card -->
+                    <Border Grid.Column="0" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="🎯 Consistency Rule (50%)" FontFamily="Segoe UI"
+                                       FontSize="13" FontWeight="Bold" Foreground="#4C9BE8" Margin="0,0,0,12"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/><ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="Consistency %"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="32" FontWeight="Bold"
+                                               Text="{Binding ConsistencyPercent, StringFormat={0:N2}%}"
+                                               Foreground="{Binding ConsistencyColor}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="Remaining Needed"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="26" FontWeight="Bold"
+                                               Text="{Binding RemainingProfit, StringFormat=${0:N2}}"
+                                               Foreground="#F1FA8C"/>
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="Max Safe Today" Margin="0,8,0,4"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"
+                                               Text="{Binding MaxSafeToday, StringFormat=${0:N2}}"
+                                               Foreground="#50FA7B"/>
+                                </StackPanel>
+                            </Grid>
+                            <!-- Progress Bar -->
+                            <TextBlock Style="{StaticResource CardLabel}" Text="Progress to eligibility" Margin="0,12,0,4"/>
+                            <ProgressBar Value="{Binding ConsistencyProgress}" Maximum="100"
+                                         Height="12" Foreground="{Binding ConsistencyColor}"
+                                         Background="#12121E"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Payout Eligibility Card -->
+                    <Border Grid.Column="1" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="💰 Payout Eligibility" FontFamily="Segoe UI"
+                                       FontSize="13" FontWeight="Bold" Foreground="#50FA7B" Margin="0,0,0,12"/>
+                            <Border Background="{Binding EligibilityBg}" CornerRadius="6" Padding="16,12" Margin="0,0,0,12">
+                                <TextBlock Text="{Binding EligibilityText}" FontFamily="Segoe UI"
+                                           FontSize="18" FontWeight="Bold" Foreground="{Binding EligibilityColor}"
+                                           HorizontalAlignment="Center"/>
+                            </Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="✅ Profit Target"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="13" FontWeight="Bold"
+                                               Text="{Binding ProfitTargetMet}" Foreground="#50FA7B"/>
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="✅ Min Days" Margin="0,8,0,4"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="13" FontWeight="Bold"
+                                               Text="{Binding MinDaysMet}" Foreground="#50FA7B"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="✅ Buffer"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="13" FontWeight="Bold"
+                                               Text="{Binding BufferMet}" Foreground="#50FA7B"/>
+                                    <TextBlock Style="{StaticResource CardLabel}" Text="Max Withdrawable" Margin="0,8,0,4"/>
+                                    <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"
+                                               Text="{Binding MaxWithdrawable, StringFormat=${0:N2}}"
+                                               Foreground="#F1FA8C"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- ROW 3: STATS + DRAWDOWN -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="📊 Performance" FontFamily="Segoe UI" FontSize="12"
+                                       FontWeight="Bold" Foreground="#4C9BE8" Margin="0,0,0,8"/>
+                            <ItemsControl ItemsSource="{Binding PerformanceStats}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,3">
+                                            <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Label}" FontFamily="Segoe UI" FontSize="11" Foreground="#6272A4"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Value}" FontFamily="Segoe UI"
+                                                       FontSize="11" FontWeight="Bold" Foreground="#F8F8F2"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="📉 Drawdown" FontFamily="Segoe UI" FontSize="12"
+                                       FontWeight="Bold" Foreground="#FF5555" Margin="0,0,0,8"/>
+                            <ItemsControl ItemsSource="{Binding DrawdownStats}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,3">
+                                            <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Label}" FontFamily="Segoe UI" FontSize="11" Foreground="#6272A4"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Value}" FontFamily="Segoe UI"
+                                                       FontSize="11" FontWeight="Bold" Foreground="#FF5555"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="📅 This Cycle" FontFamily="Segoe UI" FontSize="12"
+                                       FontWeight="Bold" Foreground="#50FA7B" Margin="0,0,0,8"/>
+                            <ItemsControl ItemsSource="{Binding CycleStats}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,3">
+                                            <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Label}" FontFamily="Segoe UI" FontSize="11" Foreground="#6272A4"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Value}" FontFamily="Segoe UI"
+                                                       FontSize="11" FontWeight="Bold" Foreground="#F8F8F2"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- ═══ FOOTER BUTTONS ═══ -->
+        <Border Grid.Row="2" Background="#12121E">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Style="{StaticResource ActionBtn}" Content="📂 Import CSV"
+                        Command="{Binding ImportCsvCommand}"/>
+                <Button Style="{StaticResource ActionBtn}" Content="💸 New Payout Cycle"
+                        Command="{Binding NewPayoutCycleCommand}" Background="#50FA7B"/>
+                <Button Style="{StaticResource ActionBtn}" Content="📤 Export Excel"
+                        Command="{Binding ExportExcelCommand}" Background="#6272A4"/>
+                <Button Style="{StaticResource ActionBtn}" Content="⚙ Settings"
+                        Command="{Binding OpenSettingsCommand}" Background="#44475A"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
