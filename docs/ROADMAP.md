@@ -1,40 +1,33 @@
 # PropDesk – Roadmap
 
-## ✅ Sprint 1 – Foundation (Current)
-- [x] Project architecture
-- [x] Domain models (Trade, TradingDay, Account, PayoutCycle)
-- [x] ConsistencyEngine (50% rule)
-- [x] DrawdownEngine
-- [x] PayoutEngine
-- [x] StatisticsEngine
-- [x] CSV Importer
-- [x] Unit Tests
-- [ ] Excel Dashboard (Phase 1)
-- [ ] SQLite database setup
+## ✅ Sprint 1 – Foundation
+- [x] Architecture & domain models
+- [x] ConsistencyEngine, DrawdownEngine, PayoutEngine, StatisticsEngine
+- [x] CSV Importer, Unit Tests
 
-## 🔜 Sprint 2 – Excel Dashboard
-- [ ] PropDesk.xlsm with formulas
-- [ ] Manual daily P&L entry calendar
-- [ ] Consistency calculator
-- [ ] Payout eligibility display
-- [ ] Charts: equity curve, daily P&L
+## ✅ Sprint 2 – Excel Dashboard (Phase 1) 
+- [x] Dashboard, Calendar, Consistency Calculator, Payout History
+- [x] Charts: Equity Curve, Daily P&L bar, Consistency Trend
 
-## 🔜 Sprint 3 – WPF App (Phase 3)
-- [ ] MainWindow with dashboard
-- [ ] MVVM ViewModels
-- [ ] SQLite repository layer
-- [ ] LiveCharts2 equity curve
-- [ ] Material Design theme
-- [ ] CSV import UI
+## ✅ Sprint 3 – WPF App Core (Phase 3)
+- [x] MainWindow dark theme MVVM
+- [x] SettingsWindow
+- [x] ImportWindow with CSV preview grid
+- [x] SQLite schema + AccountRepository + TradeRepository
+- [x] MainViewModel wired to DB + all windows
 
-## 🔜 Sprint 4 – Features
-- [ ] Multi-account support
-- [ ] Payout history
-- [ ] PDF export
-- [ ] Settings screen
+## Sprint 4 – Charts & Reporting (Next)
+- [ ] LiveCharts2 equity curve in WPF
+- [ ] PDF Payout Report (ClosedXML / iText)
+- [ ] Monthly returns chart
 
-## 🔜 Sprint 5 – Polish
-- [ ] Dark theme
-- [ ] Multiple prop firms
-- [ ] Installer / packaging
+## Sprint 5 – Payout History & Calendar
+- [ ] Payout history screen
+- [ ] WPF monthly calendar view
+- [ ] New payout cycle logic + DB storage
+
+## Sprint 6 – Polish & Release
+- [ ] Multi-account switcher UI
+- [ ] Multiple prop firms support
+- [ ] App installer
 - [ ] Documentation
